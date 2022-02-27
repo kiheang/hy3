@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+        <meta name="format-detection" content="telephone=no" />
+        <title>HY트레이닝</title>
+
+        <link rel="stylesheet" href="../common/css/default.css" />
+        <link rel="stylesheet" href="../common/css/animate.css" />
+        <link rel="stylesheet" href="../common/css/slick.css" />
+        <script src="../common/js/jquery-1.12.4.min.js"></script>
+        <script src="../common/js/wow.js"></script>
+        <script src="../common/js/slick.js"></script>
+        <script src="../common/js/masonry.pkgd.min.js"></script>
+        <script src="../common/js/publish.js"></script>
+    </head>
+    <script>
+        //쿠키생성
+        function setCookie(name, value, expirehours) {
+            var date = new Date();
+            date.setHours(date.getHours() + expirehours);
+            document.cookie = name + '=' + escape(value) + '; path=/; expires=' + date.toGMTString() + ';';
+        }
+
+        //오늘 하루 보지 않기
+        $(function () {
+            $("[name='checkbox']").click(function () {
+                //하루 안보는 쿠키 세팅
+                setCookie('gnEventCookie' + this.id, 'done', 24 * 1);
+                self.close();
+            });
+        });
+    </script>
+    <body>
+        <div id="wrapper">
+            <div class="pop_wrap pc_pop">
+                <div class="pop active">
+                    <img src="../common/images/m6.jpeg" alt="" />
+                    <div class="check">
+                        <input
+                            type="checkbox"
+                            name="checkbox"
+                            value="1"
+                            class="pop_chk"
+                            id="pop1"
+                            title="팝업을 오늘 하루 그만보기"
+                        /><label for="pop1">오늘 하루 그만 보기</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

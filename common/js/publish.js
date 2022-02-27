@@ -74,152 +74,54 @@ $(function () {
 
     //페이지 로드시 실행
     $('.work .container').height($('.work section').height() + 'px');
+    $('.tab > li > a').on('click', function () {
+        var i = $(this).parent().index();
+        $(this).parent().addClass('active').siblings().removeClass('active');
+        $(this).parent().parent().parent().next().children().eq(i).addClass('active').siblings().removeClass('active');
+        $('.zoom_img').slick('setPosition');
+        $('.zoom_img').slick('refresh');
+        $('.thumb_img').slick('setPosition');
+        $('.thumb_img').slick('refresh');
 
+        $('.thumb_img').slick('slickGoTo', 0);
+        return false;
+    });
+    function sliderSet(slickfor, slicknav) {
+        slickfor.slick({
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false,
+            fade: true,
+            asNavFor: slicknav,
+        });
+        slicknav.slick({
+            slidesToShow: 5,
+            slidesToScroll: 1,
+            focusOnSelect: true,
+            dots: false,
+            centerMode: true,
+            arrows: true,
+            infinite: true,
+            asNavFor: slickfor,
+        });
+    }
+
+    $('.cf_wrapper').each(function (i, el) {
+        i += 1;
+        var slickfor = $(el)
+            .find('.zoom_img')
+            .addClass('for' + i);
+        var slicknav = $(el)
+            .find('.thumb_img')
+            .addClass('nav' + i);
+        sliderSet(slickfor, slicknav);
+    });
     //우리가 하는일 - 탭클릭 이벤트
     $('.work button').on({
         click: function () {
             $('.work li').removeClass('active');
             $(this).closest('li').addClass('active');
         },
-    });
-
-    // 메인슬라이드 배너 이벤트
-    if ($('.main_slide').length > 0) {
-        var mainSlider = $('.main_slide');
-        mainSlider
-            .slick({
-                centerPadding: 0,
-                autoplay: true,
-                autoplaySpeed: 4000,
-                cssEase: 'ease-in',
-                slickPlay: false,
-                pauseOnHover: false,
-                infinite: true,
-                prevArrow: $('.mb_prev'),
-                nextArrow: $('.mb_next'),
-            })
-            .on('init reInit afterChange', function (event, slick, currentSlide, nextSlide) {
-                var i = (currentSlide ? currentSlide : 0) + 1;
-                $('.slide_count').html('<span class="current">' + i + '</span> / ' + slick.slideCount);
-                $('.main_slide').find('p').removeClass('active');
-                $('.slick-active p').addClass('active');
-            });
-
-        $('.nt_stop').click(function () {
-            if ($(this).hasClass('play')) {
-                $(this).removeClass('play').children('.hide').text('일시정지');
-                $(this).parents('.mb_ctrl').prev().slick('slickPlay');
-                $('.pro_bar').removeClass('pause');
-            } else {
-                $(this).addClass('play').children('.hide').text('자동시작');
-                $(this).parents('.mb_ctrl').prev().slick('slickPause');
-                $('.pro_bar').addClass('pause');
-            }
-        });
-
-        // 210108 추가
-        // var time = 3;
-        // var bar, isPause, tick, percentTime;
-
-        // bar = $('.ProgressBar span');
-
-        // function startProgressbar() {
-        //     resetProgressbar();
-        //     percentTime = 0;
-        //     isPause = false;
-        //     tick = setInterval(interval, 10);
-        // }
-
-        // function stopProgressbar(){
-
-        // }
-
-        // function interval() {
-        //     if (isPause === false) {
-        //         percentTime += 1 / (time + 0.1);
-        //         bar.css({
-        //             width: percentTime + '%',
-        //         });
-        //         if (percentTime >= 100) {
-        //             mainSlider.slick('slickNext');
-        //             startProgressbar();
-        //         }
-        //     }
-
-        // }
-
-        // function resetProgressbar() {
-        //     bar.css({
-        //         width: 0 + '%',
-        //     });
-        //     clearTimeout(tick);
-        // }
-
-        // startProgressbar();
-
-        // $('.mb_prev, .mb_next').click(function () {
-        //     startProgressbar();
-        // });
-
-        // $('.ProgressBar').addClass('pro-ani');
-        mainSlider.on('afterChange', function () {
-            $('.pro_bar').addClass('pro-ani');
-        });
-        mainSlider.on('beforeChange', function () {
-            $('.pro_bar').removeClass('pro-ani');
-        });
-
-        setTimeout(function () {
-            $('.slick-active p').addClass('active');
-        }, 300);
-    }
-
-    // function hh(){
-    // 	var portH = $('.tab_con.active .port_list').innerHeight();
-    // 	console.log(portH);
-    // 	$('.tab_con.active .port_list').css('height', portH);
-    // }
-    //
-    // 포트폴리오 레이아웃 플러그인
-    $(window).on('load resize', function () {
-        if (window.innerWidth > 768) {
-            if ($('.port_list').length > 0) {
-                var $portList = $('.port_list').masonry({
-                    horizontalOrder: true,
-                    transitionDuration: '0.5s',
-                    resize: true,
-                    containerStyle: { height: '1904px', position: 'relative' },
-                });
-                $portList.imagesLoaded().progress(function () {
-                    $portList.masonry('layout');
-                });
-            }
-        } else {
-            $('.port_list').css('animation', 'none');
-            $('.portfolio li').css('position', 'relative');
-            $('.portfolio li').css('top', 'auto');
-        }
-    });
-    $(window).on('load resize orientationchange', function () {
-        if ($(window).width() > 1041) {
-            $('#header .sitemap ol').removeAttr('style');
-        }
-    });
-    $('#header .sitemap ul > li').click(function () {
-        if ($(window).width() < 1041) {
-            $(this).toggleClass('active').children('ol').stop().slideToggle(300);
-            if ($(this).hasClass('active')) {
-                $(this).siblings().removeClass('active').find('ol').stop().slideUp(300);
-            }
-        }
-    });
-    //포트폴리오 보기
-    $('.port_list a').on('click', function () {
-        var portNum = $(this).attr('data-port');
-        insertPortfolio(portNum);
-        pageScroll('off');
-        $('#modal').show();
-        return false;
     });
     //버튼클릭시 모달팝업 열기
     $('.modal button').click(function (e) {
@@ -266,53 +168,6 @@ $(function () {
         return false;
     });
     his_scroll();
-
-    // 210204 김영산 추가
-    // $('.more_port').on( 'click', function() {
-    //     if(portfolio.length == pfItem){
-    //         alert('내용이 없습니다.');
-    //         return false;
-    //     }
-    //     for(var j = 0; j < 4;j++){
-    //         var $items = $('<li class="item '+portfolio[pfItem][1]+'"><a href="'+ portfolio[pfItem][0] +'"><b>'+ portfolio[pfItem][1] +'</b><strong>'+ portfolio[pfItem][2] +' <span>'+ portfolio[pfItem][3] +'</span></strong><img src="'+ portfolio[pfItem][4] +'" alt="'+ portfolio[pfItem][5] +'"></a></li>');
-    //         // append items to grid
-    //         $('#gall2').append($items).masonry( 'appended', $items );
-
-    //         pfItem++;
-    //     }
-    //   });
-    if ($('.partners .slide').length > 0) {
-        $('.partners .slide').slick({
-            variableWidth: true,
-            slidesToScroll: 1,
-            autoplay: true,
-            pauseOnHover: true,
-            infinite: true,
-            autoplaySpeed: 2000,
-            prevArrow: $('.partners .prev'),
-            nextArrow: $('.partners .next'),
-            responsive: [
-                {
-                    breakpoint: 1200,
-                    settings: {
-                        slidesToShow: 4,
-                    },
-                },
-                {
-                    breakpoint: 1000,
-                    settings: {
-                        slidesToShow: 3,
-                    },
-                },
-                {
-                    breakpoint: 500,
-                    settings: {
-                        slidesToShow: 2,
-                    },
-                },
-            ],
-        });
-    }
 
     // 210311 gnb 수정
     head_scroll();

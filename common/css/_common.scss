@@ -208,14 +208,14 @@ body {overflow:visible;
     //     }
     // }
     /*210618 추가*/
-    background-color:#fff;padding:55px 0 60px;color:#000; border-top:1px solid #f2f2f5;
+    background-color:#333d49;padding:55px 0 60px;
     .container1 {@include clear;position:relative;
-        dl {float:left;width:350px;
-            dt {font-size:18px;font-weight:600;margin-bottom:10px;}
-            dd {display:inline-block;font-size:15px;padding:2px 0;font-family:'Noto Sans',sans-serif;padding-right:11px;
+        dl {float:left;width:350px; 
+            dt {font-size:18px;font-weight:600;margin-bottom:10px; color:#cfd4da;}
+            dd {display:inline-block;font-size:15px;padding:2px 0;font-family:'Noto Sans',sans-serif;padding-right:11px; color:#cfd4da;
                 div {margin-bottom:4px;}
                 strong {display:block;margin-top:-6px;font-size:28px;font-weight:500;}
-                &.copy {display:block;font-size:12px;margin-top:16px;font-weight:500;font-family:'Nexon Gothic Lv1 EN',sans-serif;}
+                &.copy {display:block;font-size:12px;margin-top:16px;font-weight:500;font-family:'Nexon Gothic Lv1 EN',sans-serif; color: #848e9a;}
             }
             &:first-of-type {width:410px;margin-right:140px;}
         }
